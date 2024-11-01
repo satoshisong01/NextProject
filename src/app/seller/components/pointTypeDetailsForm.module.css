@@ -1,0 +1,51 @@
+.container {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 1065px;
+  margin: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldContainer {
+  width: 120px;
+  margin-bottom: 10px;
+}
+
+.fieldContainer:not(:first-child) {
+  margin-left: 30px;
+}
+
+.label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #45a049;
+}
+.mainBox {
+  display: flex;
+  flex-direction: row;
+}

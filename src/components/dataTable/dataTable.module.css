@@ -1,0 +1,36 @@
+/* DataTable.module.css */
+.container {
+  margin: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.title {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.headerCell {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.row {
+  text-align: center;
+}
+
+.tableRow td {
+  /* td 스타일을 tableRow 클래스 내에서만 적용 */
+  padding: 8px;
+  border: 1px solid #ddd;
+  font-size: 1em;
+}

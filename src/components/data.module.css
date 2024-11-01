@@ -1,0 +1,127 @@
+/* styles/Data.module.css */
+
+.container {
+  /* max-width: 600px; */
+  width: 95% !important;
+  margin: 0 !important;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 0.5rem;
+}
+
+.select {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #333;
+  margin-top: 0.5rem;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #555;
+}
+
+.score {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #666;
+}
+
+.inputsContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; /* 요소들이 행으로 넘어가도록 설정 */
+  gap: 1rem; /* 요소들 간의 간격 */
+  margin-top: 1.5rem;
+}
+
+.field {
+  width: calc(13% - 0.5rem); /* 두 개씩 행에 표시되도록 너비 조정 */
+  margin-bottom: 1.25rem;
+}
+
+.field label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  margin-right: 15px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  color: #333;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #555;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  gap: 1rem;
+}
+
+.controlButton {
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 50%;
+  background-color: #4caf50; /* 버튼 배경 색 */
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controlButton:hover {
+  background-color: #388e3c; /* 호버 시 더 어두운 색상 */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1); /* 호버 시 확대 효과 */
+}
+
+.controlButton:active {
+  transform: scale(0.95); /* 클릭 시 살짝 축소 효과 */
+  box-shadow: none;
+}
