@@ -12,30 +12,24 @@ export default function PointDistribution({ refresh }) {
   const [manualRefresh, setManualRefresh] = useState(false);
 
   useEffect(() => {
-    // 사용자 목록 불러오기 함수
     const fetchUsers = async () => {
       try {
-        const createdBy = localStorage.getItem("username"); // 로컬 스토리지에서 username 가져오기
-        const role = localStorage.getItem("role"); // 로컬 스토리지에서 role 가져오기
-        console.log(role);
-        // role이 "admin"이면 전체 사용자 목록을 요청, 그 외에는 created_by가 현재 사용자와 일치하는 사용자만 가져옴
+        const createdBy = localStorage.getItem("username");
+        const role = localStorage.getItem("role");
+
         const apiEndpoint =
           role === "admin"
             ? "/api/users"
             : `/api/users?created_by=${createdBy}`;
 
         const response = await fetch(apiEndpoint);
-        if (!response.ok) {
+        if (!response.ok)
           throw new Error("사용자 목록을 불러오는 중 오류 발생");
-        }
 
         const data = await response.json();
-
-        // username을 기준으로 중복을 제거한 사용자 목록
         const uniqueUsers = Array.from(
           new Map(data.map((user) => [user.username, user])).values()
         );
-
         setUsers(uniqueUsers);
       } catch (err) {
         console.error("사용자 목록을 불러오는 중 오류:", err);
@@ -43,46 +37,57 @@ export default function PointDistribution({ refresh }) {
       }
     };
 
-    // 포인트 타입 목록 불러오기 함수
     const fetchPointTypes = async () => {
       try {
         const response = await fetch("/api/point-types");
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error("포인트 타입 불러오기 오류:", errorText);
-          setError(
-            "포인트 타입을 불러오는 데 실패했습니다. 다시 시도해주세요."
-          );
-          return;
-        }
+        if (!response.ok) throw new Error("포인트 타입 불러오기 오류");
+
         const data = await response.json();
         setPointTypes(data);
       } catch (error) {
         console.error("포인트 타입 불러오기 중 오류:", error);
-        setError(
-          "포인트 타입을 불러오는 중 오류가 발생했습니다. 다시 시도해주세요."
-        );
+        setError("포인트 타입을 불러오는 데 실패했습니다. 다시 시도해주세요.");
       }
     };
 
-    // 데이터 불러오기 함수 호출
     fetchUsers();
     fetchPointTypes();
 
     const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setAddedBy(storedUsername);
-    }
-  }, [refresh, manualRefresh]); // refresh와 manualRefresh 변경 시 데이터를 다시 불러옴
+    if (storedUsername) setAddedBy(storedUsername);
+  }, [refresh, manualRefresh]);
 
-  // 수동 새로고침 버튼 클릭 시 실행될 함수
-  const handleRefresh = () => {
-    setManualRefresh((prev) => !prev);
-  };
+  const handleRefresh = () => setManualRefresh((prev) => !prev);
 
-  // 폼 제출 함수
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // admin이 아닌 경우 시간 제한 검사 수행
+    const role = localStorage.getItem("role");
+    if (role !== "admin") {
+      const timeResponse = await fetch("/api/time-setting");
+      if (timeResponse.ok) {
+        const { scheduled_time: scheduledTime } = await timeResponse.json();
+        const currentTime = new Date();
+        const [startHours, startMinutes, startSeconds] = scheduledTime
+          .split(":")
+          .map(Number);
+
+        const startTime = new Date();
+        startTime.setHours(startHours, startMinutes, startSeconds, 0);
+
+        const endTime = new Date();
+        endTime.setHours(24, 0, 0, 0);
+
+        if (currentTime >= startTime && currentTime < endTime) {
+          alert("지금은 포인트 지급 가능한 시간이 아닙니다.");
+          return;
+        }
+      } else {
+        alert("시간 정보를 확인할 수 없습니다.");
+        return;
+      }
+    }
 
     const pointData = {
       username: selectedUser,
@@ -112,7 +117,62 @@ export default function PointDistribution({ refresh }) {
     }
   };
 
-  // 오류 발생 시 오류 메시지 표시
+  // 포인트 회수 함수
+  const handleRevoke = async () => {
+    const role = localStorage.getItem("role");
+    if (role !== "admin") {
+      const timeResponse = await fetch("/api/time-setting");
+      if (timeResponse.ok) {
+        const { scheduled_time: scheduledTime } = await timeResponse.json();
+        const currentTime = new Date();
+        const [startHours, startMinutes, startSeconds] = scheduledTime
+          .split(":")
+          .map(Number);
+
+        const startTime = new Date();
+        startTime.setHours(startHours, startMinutes, startSeconds, 0);
+
+        const endTime = new Date();
+        endTime.setHours(24, 0, 0, 0);
+
+        if (currentTime >= startTime && currentTime < endTime) {
+          alert("지금은 포인트 회수 가능한 시간이 아닙니다.");
+          return;
+        }
+      } else {
+        alert("시간 정보를 확인할 수 없습니다.");
+        return;
+      }
+    }
+
+    const pointData = {
+      username: selectedUser,
+      point_type_id: parseInt(selectedPointType),
+      point_score: parseInt(pointScore),
+      added_by: addedBy,
+      isRevoke: true,
+    };
+
+    try {
+      const response = await fetch("/api/points", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(pointData),
+      });
+
+      if (response.ok) {
+        alert("포인트가 성공적으로 회수되었습니다.");
+        setPointScore("");
+      } else {
+        const errorData = await response.json();
+        alert(`오류: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error("서버 오류:", error);
+      alert("서버 오류가 발생했습니다.");
+    }
+  };
+
   if (error) {
     return <p className={styles.error}>{error}</p>;
   }
@@ -120,9 +180,9 @@ export default function PointDistribution({ refresh }) {
   return (
     <div className={styles.container}>
       <div style={{ display: "flex" }}>
-        <h2 className={styles.title}>포인트 지급</h2>
+        <h2 className={styles.title}>포인트 지급 및 회수</h2>
         <button onClick={handleRefresh} className={styles.refreshButton}>
-          🔄 {/* 새로고침 아이콘 (회전 화살표 모양) */}
+          🔄
         </button>
       </div>
       <form onSubmit={handleSubmit} className={styles.form}>
@@ -168,9 +228,18 @@ export default function PointDistribution({ refresh }) {
             className={styles.input}
           />
         </label>
-        <button type="submit" className={styles.button}>
-          지급
-        </button>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button type="submit" className={styles.button}>
+            지급
+          </button>
+          <button
+            type="button"
+            onClick={handleRevoke}
+            className={styles.revokeButton}
+          >
+            회수
+          </button>
+        </div>
       </form>
     </div>
   );

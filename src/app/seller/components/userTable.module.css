@@ -1,5 +1,5 @@
 .container {
-  max-width: 700px;
+  max-width: 1500px;
   margin: 20px;
   padding: 1em;
   font-family: Arial, sans-serif;
@@ -50,4 +50,25 @@
 /* 화살표 버튼이 클릭될 때 회전 애니메이션 */
 .refreshButton:active {
   transform: rotate(360deg);
+}
+
+.exportButton {
+  background-color: #4caf50; /* 녹색 배경 */
+  color: white; /* 흰색 텍스트 */
+  border: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 5px; /* 모서리 둥글게 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
+  transition: background-color 0.3s ease; /* 부드러운 색상 전환 */
+  margin-left: 30px;
+}
+
+.exportButton:hover {
+  background-color: #45a049; /* 마우스 오버 시 색상 */
 }

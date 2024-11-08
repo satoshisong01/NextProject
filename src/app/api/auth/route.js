@@ -36,7 +36,7 @@ export async function POST(request) {
       { expiresIn: "1h" }
     );
 
-    console.log("생성된 토큰:", token); // 추가된 로그
+    // console.log("생성된 토큰:", token); // 추가된 로그
 
     const response = NextResponse.json({ role: user.role });
     response.cookies.set("token", token, {

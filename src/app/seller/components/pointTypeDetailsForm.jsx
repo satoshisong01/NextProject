@@ -75,6 +75,11 @@ export default function PointTypeDetailsForm() {
   // 입력 필드 값 변경 핸들러
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // 첫 번째 필드 (슬롯수)에 숫자만 입력되도록 조건 설정
+    if (name === "text1" && !/^\d*$/.test(value)) {
+      alert("숫자만 입력 가능합니다.");
+      return;
+    }
     setFields((prevFields) => ({
       ...prevFields,
       [name]: value,
@@ -135,13 +140,14 @@ export default function PointTypeDetailsForm() {
           {Object.keys(fields).map((fieldName, index) => (
             <div key={index} className={styles.fieldContainer}>
               <label className={styles.label}>
-                {`Text ${index + 1}: `}
+                {index === 0 ? "슬롯수" : `Text ${index + 1}: `}
                 <input
                   type="text"
                   name={fieldName}
                   value={fields[fieldName]}
                   onChange={handleChange}
                   className={styles.input}
+                  placeholder={index === 0 ? "숫자만 입력" : ""}
                 />
               </label>
             </div>

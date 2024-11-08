@@ -1,0 +1,71 @@
+.bulkActionButton {
+  height: 40px;
+}
+
+/* 연두색 버튼 스타일 */
+.greenButton {
+  background-color: #8bc34a; /* 연두색 */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.greenButton:hover {
+  background-color: #7cb342;
+}
+
+/* 붉은색 버튼 스타일 */
+.redButton {
+  background-color: #e57373; /* 붉은색 */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.redButton:hover {
+  background-color: #ef5350;
+}
+
+/* 푸른색 버튼 스타일 */
+.blueButton {
+  background-color: #64b5f6; /* 푸른색 */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.blueButton:hover {
+  background-color: #42a5f5;
+}
+
+/* 일괄 작업 버튼 (제목 옆 버튼) 스타일 */
+.bulkButton {
+  margin-left: 10px;
+}
+
+.exportButton {
+  background-color: #4caf50; /* 녹색 배경 */
+  color: white; /* 흰색 텍스트 */
+  border: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 5px; /* 모서리 둥글게 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
+  transition: background-color 0.3s ease; /* 부드러운 색상 전환 */
+  margin-left: 30px;
+}
+
+.exportButton:hover {
+  background-color: #45a049; /* 마우스 오버 시 색상 */
+}

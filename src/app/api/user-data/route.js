@@ -4,7 +4,7 @@ import { connectToDatabase } from "../../../db/db";
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const username = searchParams.get("username");
-
+  console.log("username✨✨✨", username);
   try {
     const connection = await connectToDatabase();
 

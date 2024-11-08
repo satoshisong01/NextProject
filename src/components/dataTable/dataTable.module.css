@@ -34,3 +34,56 @@
   border: 1px solid #ddd;
   font-size: 1em;
 }
+
+.btnbox {
+  text-align: center;
+}
+
+.refreshButton {
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+/* 화살표 버튼이 클릭될 때 회전 애니메이션 */
+.refreshButton:active {
+  transform: rotate(360deg);
+}
+
+/* 기본 입력 필드 스타일 */
+.inputField {
+  padding: 8px;
+  font-size: 14px;
+}
+
+/* 비활성화된 입력 필드 스타일 */
+.disabledInput {
+  background-color: #f0f0f0; /* 회색 배경 */
+  color: #a0a0a0; /* 흐린 텍스트 색상 */
+  cursor: not-allowed; /* 금지 커서 */
+}
+
+.exportButton {
+  background-color: #4caf50; /* 녹색 배경 */
+  color: white; /* 흰색 텍스트 */
+  border: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 5px; /* 모서리 둥글게 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
+  transition: background-color 0.3s ease; /* 부드러운 색상 전환 */
+  margin-left: 30px;
+}
+
+.exportButton:hover {
+  background-color: #45a049; /* 마우스 오버 시 색상 */
+}

@@ -1,6 +1,7 @@
 // src/app/api/users/route.js
 import bcrypt from "bcryptjs";
 import { connectToDatabase } from "../../../db/db";
+import { authenticate } from "../../../middleware/authenticate";
 
 // GET: 모든 사용자 조회 (admin 계정 제외)
 export async function GET(request) {
@@ -10,25 +11,27 @@ export async function GET(request) {
   const connection = await connectToDatabase();
 
   try {
-    const query = createdBy
-      ? `SELECT users.user_id, users.username, users.role, users.created_at, users.created_by,
-               points.point_id, points.point_score, points.added_by, points.point_created_at,
+    const query =
+      createdBy && createdBy !== "admin"
+        ? `SELECT users.user_id, users.username, users.role, users.created_at, users.created_by,
+               points.point_id, points.point_score, points.point_total, points.point_type_id, points.added_by, points.point_created_at,
                point_types.type_name
           FROM users
           LEFT JOIN points ON users.username = points.username
           LEFT JOIN point_types ON points.point_type_id = point_types.type_id
           WHERE users.username != 'admin' AND users.created_by = ?`
-      : `SELECT users.user_id, users.username, users.role, users.created_at, users.created_by,
-               points.point_id, points.point_score, points.added_by, points.point_created_at,
+        : `SELECT users.user_id, users.username, users.role, users.created_at, users.created_by,
+               points.point_id, points.point_score, points.point_total, points.point_type_id, points.added_by, points.point_created_at,
                point_types.type_name
           FROM users
           LEFT JOIN points ON users.username = points.username
           LEFT JOIN point_types ON points.point_type_id = point_types.type_id
           WHERE users.username != 'admin'`;
 
-    const [users] = createdBy
-      ? await connection.execute(query, [createdBy])
-      : await connection.execute(query);
+    const [users] =
+      createdBy && createdBy !== "admin"
+        ? await connection.execute(query, [createdBy])
+        : await connection.execute(query);
 
     await connection.end();
     return new Response(JSON.stringify(users), { status: 200 });

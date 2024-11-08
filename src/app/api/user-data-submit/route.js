@@ -6,16 +6,12 @@ export async function POST(request) {
   const authError = authenticate(request, ["user", "admin", "subadmin"]);
   if (authError) return authError;
 
-  // request.json()으로 데이터를 추출
   const { pointTypeId, inputs } = await request.json();
-  console.log("받은 pointTypeId:", pointTypeId); // pointTypeId 확인용 로그
-  console.log("받은 inputs:", inputs); // inputs 객체 확인용 로그
   const { username } = request.user; // 인증된 사용자 이름
 
   const connection = await connectToDatabase();
 
   try {
-    // 현재 사용자의 created_by 값을 조회합니다.
     const [userRows] = await connection.execute(
       `SELECT created_by FROM users WHERE username = ?`,
       [username]
@@ -56,8 +52,6 @@ export async function POST(request) {
       }
     });
 
-    console.log("총 차감할 포인트:", totalDeduction);
-
     if (currentPoints < totalDeduction) {
       return new Response(JSON.stringify({ error: "포인트가 부족합니다." }), {
         status: 400,
@@ -70,29 +64,53 @@ export async function POST(request) {
       [totalDeduction, username, pointTypeId]
     );
 
+    // 포인트 사용 로그 기록
+    const currentDate = new Date().toISOString().slice(0, 19).replace("T", " ");
+    await connection.execute(
+      `INSERT INTO points_log (username, point_type_id, action, point_score, added_by, created_at)
+       VALUES (?, ?, 'used', ?, ?, ?)`,
+      [username, pointTypeId, totalDeduction, createdBy, currentDate]
+    );
+
     // 데이터 추가 (차감 성공 시)
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 11); // 10일 후로 설정
-    currentDate.setHours(0, 0, 0, 0); // 시간을 자정(00:00:00)으로 설정하여 다음날로 저장
-    const timeLimit = `${currentDate.toISOString().slice(0, 10)} 00:00:00`;
+    const currentDateForTimeLimit = new Date();
+    currentDateForTimeLimit.setDate(currentDateForTimeLimit.getDate() + 11); // 10일 후로 설정
+    currentDateForTimeLimit.setHours(0, 0, 0, 0); // 시간을 자정(00:00:00)으로 설정하여 다음날로 저장
+    const timeLimit = `${currentDateForTimeLimit
+      .toISOString()
+      .slice(0, 10)} 00:00:00`;
 
-    // 입력된 데이터에서 7개씩 나눠서 각 항목 저장
-    const inputKeys = Object.keys(inputs);
-    for (let i = 0; i < inputKeys.length; i += 7) {
-      const chunk = Array(7)
-        .fill(null)
-        .map((_, idx) => inputs[`text${i + idx + 1}`] || null);
+    const chunks = [];
+    const inputKeys = Object.keys(inputs).map((key) =>
+      parseInt(key.replace("text", ""))
+    );
 
+    for (let i = 0; i < Math.max(...inputKeys); i += 7) {
+      const chunk = [
+        inputs[`text${i + 1}`] || null,
+        inputs[`text${i + 2}`] || null,
+        inputs[`text${i + 3}`] || null,
+        inputs[`text${i + 4}`] || null,
+        inputs[`text${i + 5}`] || null,
+        inputs[`text${i + 6}`] || null,
+        inputs[`text${i + 7}`] || null,
+      ];
+      chunks.push(chunk);
+    }
+
+    for (const chunk of chunks) {
       await connection.execute(
         `INSERT INTO user_data_entries (
-          type_id, created_by, maker, time_limit, data1, data2, data3, data4, data5, data6, data7
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      type_id, created_by, maker, time_limit, data1, data2, data3, data4, data5, data6, data7
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [pointTypeId, createdBy, username, timeLimit, ...chunk]
       );
     }
 
     return new Response(
-      JSON.stringify({ message: "데이터 저장 성공 및 포인트 차감 완료" }),
+      JSON.stringify({
+        message: "데이터 저장 성공 및 포인트 차감 및 로그 기록 완료",
+      }),
       {
         status: 201,
       }

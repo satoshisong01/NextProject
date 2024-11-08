@@ -1,12 +1,12 @@
 import { connectToDatabase } from "../../../../db/db";
 
-export async function GET(req, { params }) {
-  const { point_type_id } = params;
+export async function GET(req, context) {
+  const { point_type_id } = await context.params;
 
   try {
     const connection = await connectToDatabase();
     const [rows] = await connection.execute(
-      "SELECT text1, text2, text3, text4, text5, text6, text7 FROM point_type_details WHERE point_type_id = ?",
+      "SELECT point_type_id, text1, text2, text3, text4, text5, text6, text7 FROM point_type_details WHERE point_type_id = ?",
       [point_type_id]
     );
     await connection.end();

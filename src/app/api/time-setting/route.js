@@ -23,7 +23,7 @@ export async function GET() {
       );
     } else {
       // 기존 시간이 없으면 기본값 반환
-      return new Response(JSON.stringify({ scheduled_time: "09:00:00" }), {
+      return new Response(JSON.stringify({ scheduled_time: "17:00:00" }), {
         status: 200,
       });
     }

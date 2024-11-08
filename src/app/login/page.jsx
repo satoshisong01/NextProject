@@ -18,22 +18,24 @@ export default function LoginPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
-        // credentials: "include", // 쿠키 포함 설정(서버가 설정한 쿠키를 클라이언트가 자동으로 포함)
       });
 
       if (response.ok) {
         // 인증 성공 시 JWT 토큰과 역할 정보를 반환받음
         const { token, role } = await response.json();
 
-        // localStorage에 토큰과 역할 정보를 저장
+        // 만료 시간 설정 (현재 시간 + 1시간)
+        const expireTime = new Date().getTime() + 60 * 60 * 1000;
+
+        // localStorage에 토큰, 역할, 만료 시간, 사용자 이름을 저장
         localStorage.setItem("token", token);
         localStorage.setItem("role", role);
         localStorage.setItem("username", username);
+        localStorage.setItem("expireTime", expireTime);
 
         // 대시보드로 이동
         router.push("/dashboard");
       } else {
-        // 인증 실패 시 경고 메시지
         alert("아이디 또는 비밀번호가 잘못되었습니다.");
       }
     } catch (error) {

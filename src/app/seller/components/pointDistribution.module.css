@@ -49,6 +49,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 100%;
 }
 
 .button:hover {
@@ -68,4 +69,21 @@
 /* 화살표 버튼이 클릭될 때 회전 애니메이션 */
 .refreshButton:active {
   transform: rotate(360deg);
+}
+
+/* 기존 CSS 스타일 */
+
+.revokeButton {
+  background-color: #e63946;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.revokeButton:hover {
+  background-color: #d62839;
 }

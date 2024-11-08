@@ -125,3 +125,29 @@
   transform: scale(0.95); /* 클릭 시 살짝 축소 효과 */
   box-shadow: none;
 }
+
+/* Data.module.css */
+
+.submitButton {
+  background-color: #4caf50; /* 녹색 배경색 */
+  color: white; /* 텍스트 색상 */
+  font-size: 16px; /* 폰트 크기 */
+  font-weight: bold; /* 굵은 폰트 */
+  padding: 12px 24px; /* 패딩으로 버튼 크기 조절 */
+  border: none; /* 테두리 제거 */
+  border-radius: 8px; /* 둥근 테두리 */
+  cursor: pointer; /* 클릭 가능한 포인터 표시 */
+  transition: background-color 0.3s ease; /* 배경색 전환 효과 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+  height: 50px;
+}
+
+.submitButton:hover {
+  background-color: #45a049; /* 마우스 호버 시 배경색 변경 */
+}
+
+.submitButton:active {
+  background-color: #3e8e41; /* 클릭 시 배경색 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 축소 */
+  transform: translateY(2px); /* 클릭 시 약간 눌린 효과 */
+}
