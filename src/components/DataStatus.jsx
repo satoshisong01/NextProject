@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styles from "./dataStatus.module.css"; // 기존 스타일 유지
+import styles from "./DataStatus.module.css"; // 기존 스타일 유지
 import UserStatus from "./statusTable/userStatus";
 import LoadingSpinner from "./LoadingSpinner";
 

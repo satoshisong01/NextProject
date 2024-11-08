@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styles from "./Data.module.css";
+import styles from "./data.module.css";
 import ModifiedDataTable from "./modifiedDataTable/modifiedDataTable";
 
 export default function ModifiedData() {

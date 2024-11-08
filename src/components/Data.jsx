@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import * as XLSX from "xlsx"; // xlsx 라이브러리 임포트
-import styles from "./Data.module.css";
+import styles from "./data.module.css";
 import DataTable from "./dataTable/dataTable";
 
 export default function Data() {
