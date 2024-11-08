@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Register from "./components/register";
 import UserTable from "./components/userTable";
-import PointDistribution from "./components/PointDistribution";
+import PointDistribution from "./components/pointDistribution";
 import PointTypeAdder from "./components/pointTypeAdder";
 import PointTypeDetailsForm from "./components/pointTypeDetailsForm";
 import TimeSelector from "./components/timeSelector";
