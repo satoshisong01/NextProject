@@ -140,7 +140,11 @@ export default function PointTypeDetailsForm() {
           {Object.keys(fields).map((fieldName, index) => (
             <div key={index} className={styles.fieldContainer}>
               <label className={styles.label}>
-                {index === 0 ? "슬롯수" : `Text ${index + 1}: `}
+                {index === 0
+                  ? "슬롯수"
+                  : index === 1
+                  ? "메인키워드"
+                  : `Text ${index + 1}: `}
                 <input
                   type="text"
                   name={fieldName}

@@ -9,6 +9,7 @@ import ModifiedData from "../../components/ModifiedData";
 import { FaClock } from "react-icons/fa"; // 시간 아이콘 추가
 import DataStatus from "@/components/DataStatus";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import Userdatas from "@/components/userdatas";
 
 export default function Dashboard() {
   const [role, setRole] = useState(null);
@@ -82,7 +83,7 @@ export default function Dashboard() {
 
   const getSidebarMenu = () => {
     if (role === "admin" || role === "subadmin") {
-      return ["셀러현황", "관리자요청 데이터", "데이터 현황"];
+      return ["셀러현황", "관리자요청 데이터", "데이터 현황", "사용자 데이터"];
     } else if (role === "user") {
       return [];
     }
@@ -131,6 +132,7 @@ export default function Dashboard() {
           {activeTab === "데이터" && <Data />}
           {activeTab === "관리자요청 데이터" && <ModifiedData />}
           {activeTab === "데이터 현황" && <DataStatus />}
+          {activeTab === "사용자 데이터" && <Userdatas />}
         </div>
       </div>
     </div>

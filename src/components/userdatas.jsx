@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import styles from "./data.module.css";
-import ModifiedDataTable from "./modifiedDataTable/modifiedDataTable";
+import UserdataTable from "./userdata/userdataTable";
+// import styles from "./userdatas.module.css"; // 컴포넌트의 스타일을 위한 CSS 파일
 
-export default function ModifiedData() {
+export default function Userdatas() {
   const [highlightedDates, setHighlightedDates] = useState([]); // 강조할 날짜
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
@@ -206,7 +207,6 @@ export default function ModifiedData() {
               ))}
             </select>
           </div>
-
           <div className={styles.formGroup}>
             <label className={styles.label}>포인트 종류 선택:</label>
             <select
@@ -256,7 +256,7 @@ export default function ModifiedData() {
             </select>
           </div>
         </div>
-        <ModifiedDataTable
+        <UserdataTable
           selectedType={textFields}
           selectedUser={selectedUser}
           selectedDate={selectedDate}

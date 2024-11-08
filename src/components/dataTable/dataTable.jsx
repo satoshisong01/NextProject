@@ -158,7 +158,7 @@ export default function DataTable({ selectedType, placeholders, refreshData }) {
     fetchDataEntries();
   };
 
-  const handleRefund = async (entryId, requestType) => {
+  const handleRefund = async (entry, entryId, requestType) => {
     const confirmMessage =
       requestType === "refund" ? "정말 환불 신청을 진행하시겠습니까?" : "";
     if (!confirm(confirmMessage)) return;
@@ -167,7 +167,7 @@ export default function DataTable({ selectedType, placeholders, refreshData }) {
       const response = await fetch(`/api/user-data-entries/delete/${entryId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ entry_id: entryId, requestType }), // requestType 전달
+        body: JSON.stringify({ entry, entry_id: entryId, requestType }), // requestType 전달
       });
 
       if (response.ok) {
@@ -323,7 +323,7 @@ export default function DataTable({ selectedType, placeholders, refreshData }) {
                   수정
                 </button>
                 <button
-                  onClick={() => handleRefund(entry.entry_id, "refund")}
+                  onClick={() => handleRefund(entry, entry.entry_id, "refund")}
                   className={styles.actionButton}
                 >
                   환불

@@ -19,7 +19,15 @@
 }
 
 .formGroup {
+  max-width: 400px;
+  min-width: 399px;
   margin-bottom: 1.5rem;
+}
+
+.calendarContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
 
 .label {

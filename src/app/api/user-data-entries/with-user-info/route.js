@@ -20,6 +20,9 @@ export async function GET(request) {
         ude.refund_time,
         ude.refund_completed_time,
         ude.refund_count,
+        ude.solt_count,
+        ude.maintitle,
+        ude.differenceInDays,
         users.username AS agency_name
       FROM user_data_entries ude
       JOIN users ON users.username = ude.maker

@@ -92,6 +92,7 @@ export default function UserStatus({
     const worksheet = XLSX.utils.json_to_sheet(
       userDataEntries.map((entry) => ({
         순번: entry.entry_id,
+        키워드: entry.maintitle,
         아이디: entry.maker,
         신청일: new Date(entry.created_at).toLocaleDateString(),
         대행사: entry.created_by,
@@ -100,6 +101,8 @@ export default function UserStatus({
         환불일: entry.refund_time
           ? new Date(entry.refund_time).toLocaleDateString()
           : "신청안함",
+        슬롯수: entry.solt_count,
+        환불일수: entry.differenceInDays,
         환불수: entry.refund_count ?? "미정",
         상태: entry.refund_completed_time
           ? "환불완료"
@@ -135,12 +138,15 @@ export default function UserStatus({
         <thead>
           <tr>
             <th>순번</th>
+            <th>키워드</th>
             <th>아이디</th>
             <th>신청일</th>
             <th>대행사</th>
             <th>구동 시작일</th>
             <th>구동 종료일</th>
             <th>환불일</th>
+            <th>슬롯수</th>
+            <th>환불일수</th>
             <th>환불수</th>
             <th>상태</th>
           </tr>
@@ -149,6 +155,7 @@ export default function UserStatus({
           {userDataEntries.map((entry, index) => (
             <tr key={index}>
               <td>{entry.entry_id}</td>
+              <td>{entry.maintitle}</td>
               <td>{entry.maker}</td>
               <td style={{ color: "blue" }}>
                 {new Date(entry.created_at).toLocaleDateString()}
@@ -161,6 +168,8 @@ export default function UserStatus({
                   ? new Date(entry.refund_time).toLocaleDateString()
                   : "신청안함"}
               </td>
+              <th>{entry.solt_count}</th>
+              <th>{entry.differenceInDays}</th>
               <td>{entry.refund_count ?? "미정"}</td>
               <td
                 style={{

@@ -44,7 +44,7 @@ export async function PATCH(request) {
     const refundDate = new Date();
     const timeLimit = new Date(entry.time_limit);
 
-    // 환불 예정 일수를 계산하고 refund_count 값을 구함
+    // 환불 예정 일수를 계산하고 differenceInDays 값을 구함
     const differenceInTime = timeLimit - refundDate;
     const differenceInDays = Math.ceil(
       differenceInTime / (1000 * 60 * 60 * 24)
@@ -52,15 +52,19 @@ export async function PATCH(request) {
     const refundCount =
       differenceInDays > 0 ? differenceInDays * entry.data1 : 0;
 
-    // 환불 요청 및 refund_count 업데이트 쿼리
+    // 환불 요청 및 필요한 컬럼들 업데이트 쿼리
     const updateQuery = `
       UPDATE user_data_entries
-      SET refund_request = 1, refund_time = NOW(), refund_count = ?
+      SET refund_request = 1, refund_time = NOW(), refund_count = ?, 
+          solt_count = ?, maintitle = ?, differenceInDays = ?
       WHERE entry_id = ?
     `;
 
     const [result] = await connection.execute(updateQuery, [
       refundCount,
+      entry.data1, // solt_count에 data1 값을 넣음
+      entry.data2, // maintitle에 data2 값을 넣음
+      differenceInDays, // differenceInDays 값을 넣음
       entry_id,
     ]);
 
