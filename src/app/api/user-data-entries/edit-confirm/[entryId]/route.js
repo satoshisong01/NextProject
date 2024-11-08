@@ -2,11 +2,11 @@
 import { connectToDatabase } from "../../../../../db/db";
 import { authenticate } from "../../../../../middleware/authenticate";
 
-export async function PATCH(request, { params }) {
+export async function PATCH(request, context) {
   const authError = authenticate(request, ["admin", "subadmin"]);
   if (authError) return authError;
 
-  const { entryId } = params; // URL에서 entryId 추출
+  const { entryId } = await context.params; // URL에서 entryId 추출
   const connection = await connectToDatabase();
 
   try {

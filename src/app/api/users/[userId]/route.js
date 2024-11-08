@@ -3,8 +3,8 @@ import bcrypt from "bcryptjs";
 import { connectToDatabase } from "../../../../db/db";
 
 // DELETE: 특정 사용자 삭제
-export async function DELETE(request, { params }) {
-  const { userId } = params;
+export async function DELETE(request, context) {
+  const { userId } = await context.params;
   const connection = await connectToDatabase();
 
   try {
@@ -33,8 +33,8 @@ export async function DELETE(request, { params }) {
 }
 
 // PUT: 특정 사용자 비밀번호 업데이트
-export async function PUT(request, { params }) {
-  const { userId } = params;
+export async function PUT(request, context) {
+  const { userId } = await context.params;
   const { password } = await request.json();
 
   if (!password) {

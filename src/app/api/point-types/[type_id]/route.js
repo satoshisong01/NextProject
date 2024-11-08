@@ -1,8 +1,8 @@
 import { connectToDatabase } from "../../../../db/db";
 
-export async function DELETE(req, { params }) {
+export async function DELETE(req, context) {
   // params를 비동기로 접근하여 type_id를 가져옵니다.
-  const { type_id } = await params;
+  const { type_id } = await context.params;
 
   try {
     const connection = await connectToDatabase();
